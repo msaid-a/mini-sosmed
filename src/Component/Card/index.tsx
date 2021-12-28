@@ -9,12 +9,12 @@ interface props {
 }
 
 const Card: React.FC<props> = (props) => {
-  const cardClassName = classNames(props.className, "rounded overflow-hidden shadow-lg border-2")
+  const cardClassName = classNames(props.className, "rounded overflow-hidden border-2 hover:shadow-xl cursor-pointer" )
   return (
     <div>
       <div className={cardClassName}>
         <div className="px-6 py-4">
-          <div className="font-bold text-xl mb-2">{props.title}</div>
+          <div className="font-bold text-xl mb-2 ">{props.title}</div>
           <p className="text-gray-700 text-base">{props.children}</p>
         </div>
       </div>

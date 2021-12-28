@@ -11,11 +11,13 @@ import {
   Route,
 } from "react-router-dom"
 
-const { HOME } = ROUTE_PATH;
+const { HOME, DETAIL_USER } = ROUTE_PATH;
 
 
 const ROUTES = [
   { path: HOME, exact: true, page: "Main" },
+  { path: DETAIL_USER, exact: true, page: "Post" },
+  
 ];
 
 function App() {
