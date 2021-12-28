@@ -2,11 +2,12 @@ import classNames from "classnames";
 import React from "react";
 
 interface props {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   title: string;
   className?: string;
   width?: number | string
   style?: React.CSSProperties
+  footer?: React.ReactNode
 }
 
 const Card: React.FC<props> = (props) => {
@@ -18,6 +19,9 @@ const Card: React.FC<props> = (props) => {
           <div className="font-bold text-xl mb-2 ">{props.title}</div>
           <p className="text-gray-700 text-sm">{props.children}</p>
         </div>
+      </div>
+      <div>
+        {props.footer}
       </div>
     </div>
   );

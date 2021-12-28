@@ -25,6 +25,18 @@ export const useGetDetailPost = (id: number) => {
   return { data, error, isValidating, mutate };
 };
 
+export const useGetPost = () => {
+    const { data, error, isValidating, mutate } = useSWR(
+      `/posts/`,
+      async () => {
+        const respone = await api.sosmedApi.getPost();
+        return respone;
+      },
+      { revalidateOnFocus: false, errorRetryCount: 0 }
+    );
+    return { data, error, isValidating, mutate };
+  };
+
 export const useGetCommentPost = (id: number) => {
     const { data, error, isValidating, mutate } = useSWR(
       id ? `/posts/${id}/comments` : null,

@@ -1,9 +1,18 @@
-import React from "react";
-import { Card, Container, Flex, Text } from "../../Component";
+import React, { useState, useEffect } from "react";
+import {
+  Card,
+  Container,
+  Flex,
+  Text,
+  Button,
+  ModalComponent,
+} from "../../Component";
 import { useGetUserDetail } from "../../hooks/user";
 import { useGetPostUser } from "../../hooks/post";
 import { useGetAlbumByUsers } from "../../hooks/album";
 import { useParams } from "react-router-dom";
+import { iPost } from "../../models";
+import api from "../../api";
 
 interface parms {
   id: string;
@@ -11,6 +20,19 @@ interface parms {
 
 const Post: React.FC = () => {
   const params: parms = useParams();
+  const [postState, setPostState] = useState<iPost[]>([]);
+  const [title, setTitle] = useState<string>("");
+  const [body, setBody] = useState<string>("");
+  const [loadingPost, setLoadingPost] = useState(false);
+
+  const [modalEdit, setModalEdit] = useState(false);
+
+  const [titleEdit, setTitleEdit] = useState<string>("");
+  const [bodyEdit, setBodyEdit] = useState<string>("");
+  const [index, setIndex] = useState<number>(0)
+
+  const [record, setRecord] = useState<any>({});
+
   const { data, isValidating: loadUser } = useGetUserDetail(
     parseInt(params.id)
   );
@@ -22,15 +44,121 @@ const Post: React.FC = () => {
     parseInt(params.id)
   );
 
+  useEffect(() => {
+    if (dataPost) {
+      setPostState(dataPost);
+    }
+  }, [dataPost]);
 
-  const loading = loadUser || loadPost || loadAlbum;
+  const handleAddPost = async (e?: any) => {
+    if (!title || !body) {
+      alert("Field Wajib Di isi");
+      e.preventDefault();
+    } else {
+      const copPostState = [...postState];
+      try {
+        setLoadingPost(true);
+        await api.sosmedApi.addPost({
+          title,
+          body,
+          userId: parseInt(params.id),
+        });
+        copPostState.push({
+          title,
+          body,
+          userId: parseInt(params.id),
+          id: Math.random() * 1000,
+        });
+        setPostState(copPostState);
+        alert("Succes");
+        setLoadingPost(false);
+      } catch (error) {
+        setLoadingPost(false);
+        alert("Error");
+      }
+    }
+  };
+
+  const handleEditPost = async (e?: any) => {
+    if (!titleEdit || !bodyEdit) {
+      alert("Field Wajib Di isi");
+      e.preventDefault();
+    } else {
+      const copPostState = [...postState];
+      try {
+        setLoadingPost(true);
+        await api.sosmedApi.putPost({
+          title: titleEdit,
+          body: bodyEdit,
+          userId: record.userId,
+          id: record.id
+        }, record.id);
+        copPostState[index] = {
+          title: titleEdit,
+          body: bodyEdit,
+          userId: record.userId,
+          id: record.id
+        }
+        setPostState(copPostState);
+        alert("Succes");
+        setModalEdit(false)
+        setLoadingPost(false);
+      } catch (error) {
+        setLoadingPost(false);
+        alert("Error");
+      }
+    }
+  };
+
+  const handleDeletePost = async (id: any, index: number) => {
+      const copPostState = [...postState];
+      try {
+        setLoadingPost(true);
+        await api.sosmedApi.deletePost(id);
+        if (index > -1) {
+          copPostState.splice(index, 1);
+        }
+        setPostState(copPostState);
+        alert("Succes");
+        setModalEdit(false)
+        setLoadingPost(false);
+      } catch (error) {
+        setLoadingPost(false);
+        alert("Error");
+      }
+  };
+
+
+
+  const handleModalEdit = (record: iPost, index: number) => {
+    setRecord(record);
+    setIndex(index)
+    setTitleEdit(record.title);
+    setBodyEdit(record.body);
+    setModalEdit(true);
+  };
+
+  const loading = loadUser || loadAlbum;
+
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      width: 500,
+      height: 400,
+    },
+  };
 
   return (
-    <Container className="p-4" loading={loading}>
+    <Container className="p-4">
       <Text.Heading h={2} className="text-center">
         Detail User
       </Text.Heading>
-      <Container className=" ml-7">
+      <Container className=" ml-7" loading={loading}>
         <Flex.Row colPerRow="2" className=" px-40">
           <Flex.Col>
             <Flex.Row colPerRow="3">
@@ -119,18 +247,59 @@ const Post: React.FC = () => {
       </Container>
       <hr />
       {/* Post */}
-      <Container className=" mt-10">
+      <Container className=" mt-10" loading={loadPost}>
         <Text.Heading h={4} className=" ml-3 mb-3">
           Post of User
         </Text.Heading>
+        <form
+          className="flex flex-wrap gap-3 w-full p-5"
+          onSubmit={(e) => e.preventDefault()}
+        >
+          <label className="relative flex-1 flex flex-col">
+            <Text.Span className="font-bold mb-3">*Title</Text.Span>
+            <input
+              className="rounded-md peer pl-2 pr-2 py-2 border-2 border-gray-200 placeholder-gray-300"
+              type="text"
+              placeholder="Anonymous"
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </label>
+          <label className="relative w-full flex flex-col">
+            <Text.Span className="font-bold mb-3">*Body</Text.Span>
+            <textarea
+              className="rounded-md peer pl-2 pr-2 py-2 border-2 border-gray-200 placeholder-gray-300"
+              name="card_number"
+              placeholder="Write here...."
+              onChange={(e) => setBody(e.target.value)}
+            />
+          </label>
+          <Button onClick={() => handleAddPost()}>
+            Add Post For This user
+          </Button>
+        </form>
         <Flex.Row colPerRow="4" className=" mx-auto">
-          {dataPost?.map((val) => (
+          {postState?.map((val, index) => (
             <Flex.Col>
-              <Text.Link to={`/post/${val.id}`}>
-                <Card title={val.title} style={{ minHeight: 230 }}>
+              <Card
+                title={val.title}
+                style={{ minHeight: 230 }}
+                footer={
+                  <Container className="flex justify-end pt-1">
+                    <Button
+                      className="mr-2"
+                      onClick={() => handleModalEdit(val, index)}
+                    >
+                      Edit
+                    </Button>
+                    <Button style={{ background: "red" }} onClick={() => handleDeletePost(val.id, index)}>Delete</Button>
+                  </Container>
+                }
+              >
+                <Text.Link to={`/post/${val.id}`}>
                   <Text.Paragraph>{val.body}</Text.Paragraph>
-                </Card>
-              </Text.Link>
+                  <Container></Container>
+                </Text.Link>
+              </Card>
             </Flex.Col>
           ))}
         </Flex.Row>
@@ -145,13 +314,51 @@ const Post: React.FC = () => {
           {dataAlbum?.map((val) => (
             <Flex.Col>
               <Text.Link to={`/albums/${val.id}`}>
-                <Card title={val.title} style={{minHeight: 130}}>
-                </Card>
+                <Card title={val.title} style={{ minHeight: 130 }}></Card>
               </Text.Link>
             </Flex.Col>
           ))}
         </Flex.Row>
       </Container>
+      <ModalComponent
+        isOpen={modalEdit}
+        onRequestClose={() => setModalEdit(false)}
+        style={customStyles}
+        overlayClassName="Overlay"
+        
+      >
+        <Container style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Text.Span onClick={() => setModalEdit(false)}>X</Text.Span>
+        </Container>
+        <form
+          className="flex flex-wrap gap-3 w-full p-5"
+          onSubmit={(e) => e.preventDefault()}
+        >
+          <label className="relative flex-1 flex flex-col">
+            <Text.Span className="font-bold mb-3">*Title</Text.Span>
+            <input
+              className="rounded-md peer pl-2 pr-2 py-2 border-2 border-gray-200 placeholder-gray-300"
+              type="text"
+              placeholder="Anonymous"
+              onChange={(e) => setTitleEdit(e.target.value)}
+              defaultValue={titleEdit}
+            />
+          </label>
+          <label className="relative w-full flex flex-col">
+            <Text.Span className="font-bold mb-3">*Body</Text.Span>
+            <textarea
+              className="rounded-md peer pl-2 pr-2 py-2 border-2 border-gray-200 placeholder-gray-300"
+              name="card_number"
+              placeholder="Write here...."
+              onChange={(e) => setBodyEdit(e.target.value)}
+              defaultValue={bodyEdit}
+            />
+          </label>
+          <Button onClick={() => handleEditPost()}>
+           Simpan
+          </Button>
+        </form>
+      </ModalComponent>
     </Container>
   );
 };

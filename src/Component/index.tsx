@@ -7,7 +7,8 @@ import Card from "./Card";
 import Flex from "./Flex";
 import Text from "./Text";
 import Image from "./Image";
-
+import Button from "./Button";
+import ModalComponent from "./Modal";
 export {
   Loading,
   ErrorBoundary,
@@ -17,5 +18,7 @@ export {
   Container,
   Text,
   Flex,
-  Image
+  Image,
+  Button,
+  ModalComponent
 };

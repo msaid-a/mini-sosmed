@@ -43,3 +43,14 @@ export const useGetPhotosAlbum = (albumId: number) => {
     return { data, error, isValidating, mutate };
   };
   
+  export const useGetAlbum = () => {
+    const { data, error, isValidating, mutate } = useSWR(
+      `/albums`,
+      async () => {
+        const respone = await api.sosmedApi.getAlbum();
+        return respone;
+      },
+      { revalidateOnFocus: false, errorRetryCount: 0 }
+    );
+    return { data, error, isValidating, mutate };
+  };

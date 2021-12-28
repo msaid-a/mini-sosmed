@@ -1,35 +1,34 @@
 import React from "react";
-import { Container, Text, Image, Card, Flex } from "../../Component";
-import { useGetPhotosAlbum } from "../../hooks/album";
-import { useParams } from "react-router-dom";
+import { Container, Text, Card } from "../../Component";
+import { useGetAlbum } from "../../hooks/album";
 
-interface parms {
-  id: string;
-}
-const Albums: React.FC = () => {
-  const params: parms = useParams();
 
-  const { data, isValidating } = useGetPhotosAlbum(parseInt(params.id));
+const Album: React.FC = () => {
+
+  const {
+    data: dataAlbum,
+    isValidating: loadAlbum,
+    mutate: mutateAlbum,
+  } = useGetAlbum();
+
   return (
-    <Container>
-      <Container className=" px-36">
-        <Text.Heading h={2} className="text-center mb-12">
-          List Photos of Albums
+    <Container loading={loadAlbum}>
+      <Container className=" px-96">
+        <Text.Heading className="text-center mb-5" h={2}>
+          List Album
         </Text.Heading>
-        <Flex.Row colPerRow="3">
-          {data?.map((val) => (
-            <Flex.Col>
-              <Text.Link to={`/photos/${val.id}`}>
-                <Card title={val.title} style={{ minHeight: 280 }}>
-                  <Image src={val.thumbnailUrl} className="mx-auto" />
-                </Card>
-              </Text.Link>
-            </Flex.Col>
-          ))}
-        </Flex.Row>
+
+
+
+        {dataAlbum?.map((val) => (
+        <Text.Link to={`/albums/${val.id}`}>
+          <Card title={val.title} className=" mt-7">
+          </Card>
+        </Text.Link>
+        ))}
       </Container>
     </Container>
   );
 };
 
-export default Albums;
+export default Album;
