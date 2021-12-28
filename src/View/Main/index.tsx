@@ -12,52 +12,54 @@ const Main: React.FC = () => {
       <Flex.Row colPerRow="4" className=" justify-center">
         {data?.map((val) => (
           <Flex.Col>
-            <Card title={val.name} className=" w-full">
-              <Flex.Row colPerRow="3">
-                <Flex.Col>
-                  <Text.Paragraph>Username</Text.Paragraph>
-                </Flex.Col>
-                <Flex.Col width="10px">
-                  <Text.Paragraph>:</Text.Paragraph>
-                </Flex.Col>
-                <Flex.Col>
-                  <Text.Paragraph>{val.username}</Text.Paragraph>
-                </Flex.Col>
-              </Flex.Row>
-              <Flex.Row colPerRow="3">
-                <Flex.Col>
-                  <Text.Paragraph>Email</Text.Paragraph>
-                </Flex.Col>
-                <Flex.Col width="10px">
-                  <Text.Paragraph>:</Text.Paragraph>
-                </Flex.Col>
-                <Flex.Col width="50%">
-                  <Text.Paragraph>{val.email}</Text.Paragraph>
-                </Flex.Col>
-              </Flex.Row>
-              <Flex.Row colPerRow="3">
-                <Flex.Col>
-                  <Text.Paragraph>Website</Text.Paragraph>
-                </Flex.Col>
-                <Flex.Col width="10px">
-                  <Text.Paragraph>:</Text.Paragraph>
-                </Flex.Col>
-                <Flex.Col>
-                  <Text.Paragraph>{val.website}</Text.Paragraph>
-                </Flex.Col>
-              </Flex.Row>
-              <Flex.Row colPerRow="3">
-                <Flex.Col>
-                  <Text.Paragraph>Phone Number</Text.Paragraph>
-                </Flex.Col>
-                <Flex.Col width="10px">
-                  <Text.Paragraph>:</Text.Paragraph>
-                </Flex.Col>
-                <Flex.Col width="50%">
-                  <Text.Paragraph>{val.phone}</Text.Paragraph>
-                </Flex.Col>
-              </Flex.Row>
-            </Card>
+            <Text.Link to={`/post/${val.id}`}>
+              <Card title={val.name} className=" w-full">
+                <Flex.Row colPerRow="3">
+                  <Flex.Col>
+                    <Text.Paragraph>Username</Text.Paragraph>
+                  </Flex.Col>
+                  <Flex.Col width="10px">
+                    <Text.Paragraph>:</Text.Paragraph>
+                  </Flex.Col>
+                  <Flex.Col>
+                    <Text.Paragraph>{val.username}</Text.Paragraph>
+                  </Flex.Col>
+                </Flex.Row>
+                <Flex.Row colPerRow="3">
+                  <Flex.Col>
+                    <Text.Paragraph>Email</Text.Paragraph>
+                  </Flex.Col>
+                  <Flex.Col width="10px">
+                    <Text.Paragraph>:</Text.Paragraph>
+                  </Flex.Col>
+                  <Flex.Col width="50%">
+                    <Text.Paragraph>{val.email}</Text.Paragraph>
+                  </Flex.Col>
+                </Flex.Row>
+                <Flex.Row colPerRow="3">
+                  <Flex.Col>
+                    <Text.Paragraph>Website</Text.Paragraph>
+                  </Flex.Col>
+                  <Flex.Col width="10px">
+                    <Text.Paragraph>:</Text.Paragraph>
+                  </Flex.Col>
+                  <Flex.Col>
+                    <Text.Paragraph>{val.website}</Text.Paragraph>
+                  </Flex.Col>
+                </Flex.Row>
+                <Flex.Row colPerRow="3">
+                  <Flex.Col>
+                    <Text.Paragraph>Phone Number</Text.Paragraph>
+                  </Flex.Col>
+                  <Flex.Col width="10px">
+                    <Text.Paragraph>:</Text.Paragraph>
+                  </Flex.Col>
+                  <Flex.Col width="50%">
+                    <Text.Paragraph>{val.phone}</Text.Paragraph>
+                  </Flex.Col>
+                </Flex.Row>
+              </Card>
+            </Text.Link>
           </Flex.Col>
         ))}
       </Flex.Row>
