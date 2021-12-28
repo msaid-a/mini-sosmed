@@ -12,7 +12,7 @@ const Main: React.FC = () => {
       <Flex.Row colPerRow="4" className=" justify-center">
         {data?.map((val) => (
           <Flex.Col>
-            <Text.Link to={`/post/${val.id}`}>
+            <Text.Link to={`/detail/${val.id}`}>
               <Card title={val.name} className=" w-full">
                 <Flex.Row colPerRow="3">
                   <Flex.Col>

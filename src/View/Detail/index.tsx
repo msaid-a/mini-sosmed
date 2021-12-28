@@ -2,7 +2,7 @@ import React from "react";
 import { Card, Container, Flex, Text } from "../../Component";
 import { useGetUserDetail } from "../../hooks/user";
 import { useGetPostUser } from "../../hooks/post";
-
+import { useGetAlbumByUsers } from "../../hooks/album";
 import { useParams } from "react-router-dom";
 
 interface parms {
@@ -18,17 +18,19 @@ const Post: React.FC = () => {
     parseInt(params.id)
   );
 
-  const loading = loadUser || loadPost;
+  const { data: dataAlbum, isValidating: loadAlbum } = useGetAlbumByUsers(
+    parseInt(params.id)
+  );
+
+
+  const loading = loadUser || loadPost || loadAlbum;
 
   return (
     <Container className="p-4" loading={loading}>
       <Text.Heading h={2} className="text-center">
-        Post
+        Detail User
       </Text.Heading>
       <Container className=" ml-7">
-        <Text.Heading h={5} className=" ml-44">
-          Detail User
-        </Text.Heading>
         <Flex.Row colPerRow="2" className=" px-40">
           <Flex.Col>
             <Flex.Row colPerRow="3">
@@ -115,13 +117,32 @@ const Post: React.FC = () => {
           </Flex.Col>
         </Flex.Row>
       </Container>
-
-      <Container>
+      <hr />
+      {/* Post */}
+      <Container className=" mt-10">
+        <Text.Heading h={4} className=" ml-3 mb-3">
+          Post of User
+        </Text.Heading>
         <Flex.Row colPerRow="4" className=" mx-auto">
           {dataPost?.map((val) => (
             <Flex.Col>
               <Card title={val.title} style={{ minHeight: 200 }}>
                 <Text.Paragraph>{val.body}</Text.Paragraph>
+              </Card>
+            </Flex.Col>
+          ))}
+        </Flex.Row>
+      </Container>
+
+      {/* Album */}
+      <Container className=" mt-10">
+        <Text.Heading h={4} className=" ml-3 mb-3">
+          Album of User
+        </Text.Heading>
+        <Flex.Row colPerRow="4" className=" mx-auto">
+          {dataAlbum?.map((val) => (
+            <Flex.Col>
+              <Card title={val.title}>
               </Card>
             </Flex.Col>
           ))}

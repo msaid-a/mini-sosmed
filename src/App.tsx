@@ -1,6 +1,6 @@
 import React from "react";
-import logo from "./logo.svg";
 import './lib/styles/tailwind.css'
+
 
 import { ROUTE_PATH } from "./Route/index";
 import {AsyncPage, Layout} from './Component'
@@ -16,7 +16,7 @@ const { HOME, DETAIL_USER } = ROUTE_PATH;
 
 const ROUTES = [
   { path: HOME, exact: true, page: "Main" },
-  { path: DETAIL_USER, exact: true, page: "Post" },
+  { path: DETAIL_USER, exact: true, page: "Detail" },
   
 ];
 

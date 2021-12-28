@@ -1,7 +1,7 @@
 
 const ROUTE_PATH = {
 	HOME: '/',
-	DETAIL_USER: "/post/:id"
+	DETAIL_USER: "/detail/:id"
 }
 
 export default ROUTE_PATH
