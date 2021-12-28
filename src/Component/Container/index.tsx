@@ -1,6 +1,5 @@
 import React, { CSSProperties, ReactNode } from "react";
 import { Loading } from "../index";
-import "./style.css";
 
 interface props {
   loading?: Boolean;
