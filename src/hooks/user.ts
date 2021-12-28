@@ -10,6 +10,9 @@ export const useGetUser = () => {
     },
     { revalidateOnFocus: false, errorRetryCount: 0 }
   );
+  if (error) {
+    alert("SomethingWrong");
+  }
   return { data, error, isValidating, mutate };
 };
 
@@ -22,5 +25,8 @@ export const useGetUserDetail = (id: number) => {
     },
     { revalidateOnFocus: false, errorRetryCount: 0 }
   );
+  if (error) {
+    alert("SomethingWrong");
+  }
   return { data, error, isValidating, mutate };
 };

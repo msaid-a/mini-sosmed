@@ -10,47 +10,51 @@ export const useGetAlbumByUsers = (userId: number) => {
     },
     { revalidateOnFocus: false, errorRetryCount: 0 }
   );
-    
 
   return { data, error, isValidating, mutate };
 };
 
 export const useGetPhotosAlbum = (albumId: number) => {
-    const { data, error, isValidating, mutate } = useSWR(
-      albumId ? `/albums/${albumId}/photos` : null,
-      async () => {
-        const respone = await api.sosmedApi.getPhotosAlbum(albumId);
-        return respone;
-      },
-      { revalidateOnFocus: false, errorRetryCount: 0 }
-    );
-      
-  
-    return { data, error, isValidating, mutate };
-  };
+  const { data, error, isValidating, mutate } = useSWR(
+    albumId ? `/albums/${albumId}/photos` : null,
+    async () => {
+      const respone = await api.sosmedApi.getPhotosAlbum(albumId);
+      return respone;
+    },
+    { revalidateOnFocus: false, errorRetryCount: 0 }
+  );
 
-  export const useGetDetailPhotos = (photosId: number) => {
-    const { data, error, isValidating, mutate } = useSWR(
-      photosId ? `/photos/${photosId}` : null,
-      async () => {
-        const respone = await api.sosmedApi.getDetailPhotos(photosId);
-        return respone;
-      },
-      { revalidateOnFocus: false, errorRetryCount: 0 }
-    );
-      
-  
-    return { data, error, isValidating, mutate };
-  };
-  
-  export const useGetAlbum = () => {
-    const { data, error, isValidating, mutate } = useSWR(
-      `/albums`,
-      async () => {
-        const respone = await api.sosmedApi.getAlbum();
-        return respone;
-      },
-      { revalidateOnFocus: false, errorRetryCount: 0 }
-    );
-    return { data, error, isValidating, mutate };
-  };
+  return { data, error, isValidating, mutate };
+};
+
+export const useGetDetailPhotos = (photosId: number) => {
+  const { data, error, isValidating, mutate } = useSWR(
+    photosId ? `/photos/${photosId}` : null,
+    async () => {
+      const respone = await api.sosmedApi.getDetailPhotos(photosId);
+      return respone;
+    },
+    { revalidateOnFocus: false, errorRetryCount: 0 }
+  );
+
+  if (error) {
+    alert("SomethingWrong");
+  }
+
+  return { data, error, isValidating, mutate };
+};
+
+export const useGetAlbum = () => {
+  const { data, error, isValidating, mutate } = useSWR(
+    `/albums`,
+    async () => {
+      const respone = await api.sosmedApi.getAlbum();
+      return respone;
+    },
+    { revalidateOnFocus: false, errorRetryCount: 0 }
+  );
+  if (error) {
+    alert("SomethingWrong");
+  }
+  return { data, error, isValidating, mutate };
+};
