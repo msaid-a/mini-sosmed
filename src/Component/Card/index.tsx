@@ -16,7 +16,7 @@ const Card: React.FC<props> = (props) => {
       <div className={cardClassName} style={props.style}>
         <div className="px-6 py-4">
           <div className="font-bold text-xl mb-2 ">{props.title}</div>
-          <p className="text-gray-700 text-base">{props.children}</p>
+          <p className="text-gray-700 text-sm">{props.children}</p>
         </div>
       </div>
     </div>

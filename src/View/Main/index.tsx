@@ -9,16 +9,16 @@ const Main: React.FC = () => {
       <Text.Heading h={3} className="text-center mb-12">
         List User
       </Text.Heading>
-      <Flex.Row colPerRow="4" className=" justify-center">
+      <Flex.Row colPerRow="3" className=" justify-center">
         {data?.map((val) => (
           <Flex.Col>
-            <Text.Link to={`/detail/${val.id}`}>
+            <Text.Link to={`/detail/${val.id}`}> 
               <Card title={val.name} className=" w-full">
                 <Flex.Row colPerRow="3">
-                  <Flex.Col>
+                  <Flex.Col  width="20%"> 
                     <Text.Paragraph>Username</Text.Paragraph>
                   </Flex.Col>
-                  <Flex.Col width="10px">
+                  <Flex.Col width="5px">
                     <Text.Paragraph>:</Text.Paragraph>
                   </Flex.Col>
                   <Flex.Col>
@@ -26,7 +26,7 @@ const Main: React.FC = () => {
                   </Flex.Col>
                 </Flex.Row>
                 <Flex.Row colPerRow="3">
-                  <Flex.Col>
+                  <Flex.Col width="20%">
                     <Text.Paragraph>Email</Text.Paragraph>
                   </Flex.Col>
                   <Flex.Col width="10px">
@@ -37,7 +37,7 @@ const Main: React.FC = () => {
                   </Flex.Col>
                 </Flex.Row>
                 <Flex.Row colPerRow="3">
-                  <Flex.Col>
+                  <Flex.Col width="20%">
                     <Text.Paragraph>Website</Text.Paragraph>
                   </Flex.Col>
                   <Flex.Col width="10px">
@@ -48,7 +48,7 @@ const Main: React.FC = () => {
                   </Flex.Col>
                 </Flex.Row>
                 <Flex.Row colPerRow="3">
-                  <Flex.Col>
+                  <Flex.Col width="20%">
                     <Text.Paragraph>Phone Number</Text.Paragraph>
                   </Flex.Col>
                   <Flex.Col width="10px">

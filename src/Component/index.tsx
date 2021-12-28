@@ -6,6 +6,7 @@ import Container from "./Container";
 import Card from "./Card";
 import Flex from "./Flex";
 import Text from "./Text";
+import Image from "./Image";
 
 export {
   Loading,
@@ -16,4 +17,5 @@ export {
   Container,
   Text,
   Flex,
+  Image
 };

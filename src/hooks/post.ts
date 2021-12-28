@@ -3,7 +3,7 @@ import api from "../api";
 
 export const useGetPostUser = (userId: number) => {
   const { data, error, isValidating, mutate } = useSWR(
-    userId ? `/posts?userId=${userId}` : null,
+    userId ? `/users/${userId}/posts` : null,
     async () => {
       const respone = await api.sosmedApi.getPostByUser(userId);
       return respone;
@@ -12,3 +12,28 @@ export const useGetPostUser = (userId: number) => {
   );
   return { data, error, isValidating, mutate };
 };
+
+export const useGetDetailPost = (id: number) => {
+  const { data, error, isValidating, mutate } = useSWR(
+    id ? `/posts/${id}` : null,
+    async () => {
+      const respone = await api.sosmedApi.getDetailPost(id);
+      return respone;
+    },
+    { revalidateOnFocus: false, errorRetryCount: 0 }
+  );
+  return { data, error, isValidating, mutate };
+};
+
+export const useGetCommentPost = (id: number) => {
+    const { data, error, isValidating, mutate } = useSWR(
+      id ? `/posts/${id}/comments` : null,
+      async () => {
+        const respone = await api.sosmedApi.getCommentPost(id);
+        return respone;
+      },
+      { revalidateOnFocus: false, errorRetryCount: 0 }
+    );
+    return { data, error, isValidating, mutate };
+  };
+  

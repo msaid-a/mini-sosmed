@@ -126,9 +126,11 @@ const Post: React.FC = () => {
         <Flex.Row colPerRow="4" className=" mx-auto">
           {dataPost?.map((val) => (
             <Flex.Col>
-              <Card title={val.title} style={{ minHeight: 200 }}>
-                <Text.Paragraph>{val.body}</Text.Paragraph>
-              </Card>
+              <Text.Link to={`/post/${val.id}`}>
+                <Card title={val.title} style={{ minHeight: 230 }}>
+                  <Text.Paragraph>{val.body}</Text.Paragraph>
+                </Card>
+              </Text.Link>
             </Flex.Col>
           ))}
         </Flex.Row>
@@ -142,8 +144,10 @@ const Post: React.FC = () => {
         <Flex.Row colPerRow="4" className=" mx-auto">
           {dataAlbum?.map((val) => (
             <Flex.Col>
-              <Card title={val.title}>
-              </Card>
+              <Text.Link to={`/albums/${val.id}`}>
+                <Card title={val.title} style={{minHeight: 130}}>
+                </Card>
+              </Text.Link>
             </Flex.Col>
           ))}
         </Flex.Row>
