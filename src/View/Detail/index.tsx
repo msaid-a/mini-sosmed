@@ -29,7 +29,7 @@ const Post: React.FC = () => {
 
   const [titleEdit, setTitleEdit] = useState<string>("");
   const [bodyEdit, setBodyEdit] = useState<string>("");
-  const [index, setIndex] = useState<number>(0)
+  const [index, setIndex] = useState<number>(0);
 
   const [record, setRecord] = useState<any>({});
 
@@ -87,21 +87,24 @@ const Post: React.FC = () => {
       const copPostState = [...postState];
       try {
         setLoadingPost(true);
-        await api.sosmedApi.putPost({
-          title: titleEdit,
-          body: bodyEdit,
-          userId: record.userId,
-          id: record.id
-        }, record.id);
+        await api.sosmedApi.putPost(
+          {
+            title: titleEdit,
+            body: bodyEdit,
+            userId: record.userId,
+            id: record.id,
+          },
+          record.id
+        );
         copPostState[index] = {
           title: titleEdit,
           body: bodyEdit,
           userId: record.userId,
-          id: record.id
-        }
+          id: record.id,
+        };
         setPostState(copPostState);
         alert("Succes");
-        setModalEdit(false)
+        setModalEdit(false);
         setLoadingPost(false);
       } catch (error) {
         setLoadingPost(false);
@@ -111,28 +114,26 @@ const Post: React.FC = () => {
   };
 
   const handleDeletePost = async (id: any, index: number) => {
-      const copPostState = [...postState];
-      try {
-        setLoadingPost(true);
-        await api.sosmedApi.deletePost(id);
-        if (index > -1) {
-          copPostState.splice(index, 1);
-        }
-        setPostState(copPostState);
-        alert("Succes");
-        setModalEdit(false)
-        setLoadingPost(false);
-      } catch (error) {
-        setLoadingPost(false);
-        alert("Error");
+    const copPostState = [...postState];
+    try {
+      setLoadingPost(true);
+      await api.sosmedApi.deletePost(id);
+      if (index > -1) {
+        copPostState.splice(index, 1);
       }
+      setPostState(copPostState);
+      alert("Succes");
+      setModalEdit(false);
+      setLoadingPost(false);
+    } catch (error) {
+      setLoadingPost(false);
+      alert("Error");
+    }
   };
-
-
 
   const handleModalEdit = (record: iPost, index: number) => {
     setRecord(record);
-    setIndex(index)
+    setIndex(index);
     setTitleEdit(record.title);
     setBodyEdit(record.body);
     setModalEdit(true);
@@ -280,26 +281,26 @@ const Post: React.FC = () => {
         <Flex.Row colPerRow="4" className=" mx-auto">
           {postState?.map((val, index) => (
             <Flex.Col>
-              <Card
-                title={val.title}
-                style={{ minHeight: 230 }}
-                footer={
-                  <Container className="flex justify-end pt-1">
-                    <Button
-                      className="mr-2"
-                      onClick={() => handleModalEdit(val, index)}
-                    >
-                      Edit
-                    </Button>
-                    <Button style={{ background: "red" }} onClick={() => handleDeletePost(val.id, index)}>Delete</Button>
-                  </Container>
-                }
-              >
-                <Text.Link to={`/post/${val.id}`}>
+              <Text.Link to={`/post/${val.id}`}>
+                <Card title={val.title} style={{ minHeight: 230 }}>
                   <Text.Paragraph>{val.body}</Text.Paragraph>
                   <Container></Container>
-                </Text.Link>
-              </Card>
+                </Card>
+              </Text.Link>
+              <Container className="flex justify-end pt-1">
+                <Button
+                  className="mr-2"
+                  onClick={() => handleModalEdit(val, index)}
+                >
+                  Edit
+                </Button>
+                <Button
+                  style={{ background: "red" }}
+                  onClick={() => handleDeletePost(val.id, index)}
+                >
+                  Delete
+                </Button>
+              </Container>
             </Flex.Col>
           ))}
         </Flex.Row>
@@ -325,7 +326,6 @@ const Post: React.FC = () => {
         onRequestClose={() => setModalEdit(false)}
         style={customStyles}
         overlayClassName="Overlay"
-        
       >
         <Container style={{ display: "flex", justifyContent: "flex-end" }}>
           <Text.Span onClick={() => setModalEdit(false)}>X</Text.Span>
@@ -354,9 +354,7 @@ const Post: React.FC = () => {
               defaultValue={bodyEdit}
             />
           </label>
-          <Button onClick={() => handleEditPost()}>
-           Simpan
-          </Button>
+          <Button onClick={() => handleEditPost()}>Simpan</Button>
         </form>
       </ModalComponent>
     </Container>
